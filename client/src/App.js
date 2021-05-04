@@ -1,5 +1,6 @@
 import React from 'react';
+import PeriodPage from './pages/PeriodPage.js';
 
 export default function App() {
-  return <h1>Desafio Final do Bootcamp Full Stack</h1>;
+  return <PeriodPage />;
 }
