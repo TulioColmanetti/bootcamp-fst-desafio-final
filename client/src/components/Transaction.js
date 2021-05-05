@@ -1,4 +1,5 @@
 import React from 'react';
+import * as stringHelpers from '../helpers/stringHelpers.js';
 
 export default function Transaction({ children: transaction }) {
   const { day, category, description, value } = transaction;
@@ -14,12 +15,14 @@ export default function Transaction({ children: transaction }) {
 
   return (
     <div style={transactionStyle}>
-      <span style={dayStyle}>{day}</span>
+      <span style={dayStyle}>{stringHelpers.formatDayMonth(day)}</span>
       <div style={textAlignStyle}>
         <span style={categoryStyle}>{category}</span>
         <span style={descriptionStyle}>{description}</span>
       </div>
-      <span style={valueStyle}>{value}</span>
+      <span style={valueStyle}>
+        {stringHelpers.formatNumberCurrency(value)}
+      </span>
       <span className="material-icons" style={iconStyle}>
         edit
       </span>
@@ -67,7 +70,7 @@ const styles = {
   },
 
   valueStyle: {
-    fontSize: '1.3rem',
+    fontSize: '1.2rem',
     marginRight: '100px',
   },
 
