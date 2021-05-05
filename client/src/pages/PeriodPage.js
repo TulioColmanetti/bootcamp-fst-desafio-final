@@ -6,9 +6,24 @@ import Summary from '../components/Summary.js';
 import Filter from '../components/Filter.js';
 import Transactions from '../components/Transactions.js';
 import api from '../api/apiTransaction.js';
+import * as stringHelpers from '../helpers/stringHelpers.js';
+
+function getCurrentYear() {
+  return new Date().getFullYear();
+}
+
+function getCurrentMonth() {
+  return new Date().getMonth() + 1;
+}
+
+function generateCurrentPeriod() {
+  return (
+    getCurrentYear() + '-' + stringHelpers.formatDayMonth(getCurrentMonth())
+  );
+}
 
 export default function PeriodPage() {
-  const [selectedPeriod, setSelectedPeriod] = useState('2019-01');
+  const [selectedPeriod, setSelectedPeriod] = useState(generateCurrentPeriod());
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
