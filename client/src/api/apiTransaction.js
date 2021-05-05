@@ -1,4 +1,5 @@
 import http from '../http-common';
+import * as stringHelpers from '../helpers/stringHelpers';
 
 const URL_TRANSACTION = `/api/transaction`;
 
@@ -19,8 +20,30 @@ const MONTHS = [
   { description: 'Dez', month: 12 },
 ];
 
+function generatePeriods() {
+  const yearMonthArray = [];
+  let index = 1;
+  for (const year of YEARS) {
+    for (const month of MONTHS) {
+      yearMonthArray.push({
+        id: index,
+        year,
+        month: month.month,
+        yearMonth:
+          year.toString() + '-' + stringHelpers.formatDayMonth(month.month),
+        description: month.description + '/' + year.toString(),
+      });
+      index++;
+    }
+  }
+  // yearMonthArray.sort((a, b) => b.id - a.id);
+  return yearMonthArray;
+}
+
+const ALL_PERIODS = generatePeriods();
+
 const getAll = async (query) => {
   return await http.get(URL_TRANSACTION + query);
 };
 
-export default { YEARS, MONTHS, getAll };
+export default { YEARS, MONTHS, ALL_PERIODS, getAll };
