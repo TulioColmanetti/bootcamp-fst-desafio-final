@@ -13,8 +13,11 @@ export default function Transaction({ children: transaction }) {
     iconStyle,
   } = styles;
 
+  const backgroundColor = transaction.type === '+' ? '#64ffda' : '#ef9a9a';
+
   return (
-    <div style={transactionStyle}>
+    // <div style={Object.assign({}, transactionStyle, { backgroundColor })}>
+    <div style={{ ...transactionStyle, backgroundColor }}>
       <span style={dayStyle}>{stringHelpers.formatDayMonth(day)}</span>
       <div style={textAlignStyle}>
         <span style={categoryStyle}>{category}</span>
@@ -42,7 +45,7 @@ const styles = {
     cursor: 'pointer',
     margin: '5px',
     padding: '5px',
-    border: '1px solid grey',
+    // border: '1px solid grey',
     borderRadius: '5px',
   },
 

@@ -43,13 +43,13 @@ const styles = {
   positiveValueStyle: {
     fontSize: '1.1rem',
     fontWeight: 'bold',
-    color: '#27ae60',
+    color: '#00bfa5',
   },
 
   negativeValueStyle: {
     fontSize: '1.1rem',
     fontWeight: 'bold',
-    color: '#e74c3c',
+    color: '#e57373',
   },
 };
 
