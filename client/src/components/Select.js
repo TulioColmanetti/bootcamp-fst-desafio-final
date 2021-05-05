@@ -24,16 +24,14 @@ export default function Select({ options, selectedValue, onSelect }) {
       </div>
       <div className="input-field" style={selectStyle}>
         <select value={selectedValue} onChange={handleSelectChange}>
-          {options.map((option, index) => {
+          {options.map((option) => {
+            const { id, description, yearMonth } = option;
             return (
-              <option key={index} value={option}>
-                {option}
+              <option key={id} value={yearMonth}>
+                {description}
               </option>
             );
           })}
-          {/* <option value={10}>Ten</option>
-          <option value={20}>Twenty</option>
-          <option value={30}>Thirty</option> */}
         </select>
       </div>
       <div>
@@ -63,5 +61,6 @@ const styles = {
 
   selectStyle: {
     flex: '0 0 200px',
+    textAlignLast: 'center',
   },
 };
