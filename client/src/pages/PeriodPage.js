@@ -8,7 +8,7 @@ import Transactions from '../components/Transactions.js';
 import api from '../api/apiTransaction.js';
 
 export default function PeriodPage() {
-  const [selectedPeriod, setSelectedPeriod] = useState('2021-01');
+  const [selectedPeriod, setSelectedPeriod] = useState('2019-01');
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -28,13 +28,13 @@ export default function PeriodPage() {
       <Header>Bootcamp Full Stack - Desafio Final</Header>
       <Main>
         <Select
-          options={['2021-01', '2021-02', '2021-03']}
+          options={api.ALL_PERIODS}
           selectedValue={selectedPeriod}
           onSelect={handleSelectedPeriod}
         />
         <Summary />
         <Filter />
-        <Transactions>{JSON.stringify(transactions)}</Transactions>
+        <Transactions>{transactions}</Transactions>
       </Main>
     </div>
   );
