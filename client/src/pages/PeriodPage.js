@@ -47,7 +47,7 @@ export default function PeriodPage() {
           selectedValue={selectedPeriod}
           onSelect={handleSelectedPeriod}
         />
-        <Summary />
+        <Summary>{transactions}</Summary>
         <Filter />
         <Transactions>{transactions}</Transactions>
       </Main>
