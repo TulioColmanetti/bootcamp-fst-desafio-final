@@ -42,7 +42,6 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    cursor: 'pointer',
     margin: '5px',
     padding: '5px',
     // border: '1px solid grey',
@@ -80,5 +79,6 @@ const styles = {
   iconStyle: {
     marginRight: '10px',
     fontSize: '1.3rem',
+    cursor: 'pointer',
   },
 };
