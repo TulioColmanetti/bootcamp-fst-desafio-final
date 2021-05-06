@@ -26,6 +26,25 @@ const findTransactions = async (req, res, next) => {
   }
 };
 
+// POST route - create transactions
+const createTransactions = async (req, res, next) => {
+  try {
+    const transactions = req.body;
+
+    if (!transactions) throw new Error('Missing required information!');
+
+    /*
+    Performs an INSERT operation for one or more documents, no UPDATE
+    model.create() calls 'new model(doc).save()' for every doc
+    */
+    const createdTransactions = await TransactionModel.create(transactions);
+
+    res.send(createdTransactions);
+  } catch (err) {
+    next(err);
+  }
+};
+
 /*
  Always do this if an error occurred
  It will not run if res.send() or res.end() was called before
@@ -34,4 +53,4 @@ const exceptionHandler = (err, _req, res, _next) => {
   res.status(400).send({ error: err.message });
 };
 
-module.exports = { findTransactions, exceptionHandler };
+module.exports = { findTransactions, createTransactions, exceptionHandler };
