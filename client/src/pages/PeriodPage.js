@@ -7,7 +7,7 @@ import Filter from '../components/Filter.js';
 import Transactions from '../components/Transactions.js';
 import api from '../api/apiTransaction.js';
 import * as stringHelpers from '../helpers/stringHelpers.js';
-
+import ModalTransaction from '../components/ModalTransaction.js';
 function getCurrentYear() {
   return new Date().getFullYear();
 }
@@ -38,6 +38,11 @@ export default function PeriodPage() {
     setSelectedPeriod(period);
   };
 
+  const handlePersistData = async (newTransaction) => {
+    const createdTransaction = await api.postTransaction(newTransaction);
+    console.log(createdTransaction.data);
+  };
+
   return (
     <div className="container">
       <Header>Bootcamp Full Stack - Desafio Final</Header>
@@ -48,6 +53,10 @@ export default function PeriodPage() {
           onSelect={handleSelectedPeriod}
         />
         <Summary>{transactions}</Summary>
+        <button data-target="modal1" className="btn modal-trigger">
+          Modal
+        </button>
+        <ModalTransaction onSave={handlePersistData}>{}</ModalTransaction>
         <Filter />
         <Transactions>{transactions}</Transactions>
       </Main>

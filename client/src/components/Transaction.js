@@ -26,7 +26,11 @@ export default function Transaction({ children: transaction }) {
       <span style={valueStyle}>
         {stringHelpers.formatNumberCurrency(value)}
       </span>
-      <span className="material-icons" style={iconStyle}>
+      <span
+        data-target="modal1"
+        className="material-icons modal-trigger"
+        style={iconStyle}
+      >
         edit
       </span>
       <span className="material-icons" style={iconStyle}>
@@ -42,7 +46,7 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    cursor: 'pointer',
+
     margin: '5px',
     padding: '5px',
     // border: '1px solid grey',
@@ -80,5 +84,6 @@ const styles = {
   iconStyle: {
     marginRight: '10px',
     fontSize: '1.3rem',
+    cursor: 'pointer',
   },
 };
