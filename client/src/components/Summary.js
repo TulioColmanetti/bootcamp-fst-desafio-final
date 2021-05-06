@@ -25,7 +25,7 @@ const styles = {
     justifyContent: 'space-between',
     margin: '5px',
     padding: '8px',
-    border: '1px solid grey',
+    border: '1px solid #bdbdbd',
     borderRadius: '5px',
   },
 
