@@ -42,12 +42,20 @@ function generatePeriods() {
 
 const ALL_PERIODS = generatePeriods();
 
-const getAll = async (query) => {
-  return await http.get(URL_TRANSACTION + query);
+const getTransactionsFrom = async (period) => {
+  const transactions = await http.get(URL_TRANSACTION + `?yearMonth=${period}`);
+  return transactions.data.sort((a, b) => a.day - b.day);
 };
 
 const postTransaction = async (transaction) => {
-  return await http.post(URL_TRANSACTION, transaction);
+  const createdTransaction = await http.post(URL_TRANSACTION, transaction);
+  return createdTransaction.data;
 };
 
-export default { YEARS, MONTHS, ALL_PERIODS, getAll, postTransaction };
+export default {
+  YEARS,
+  MONTHS,
+  ALL_PERIODS,
+  getTransactionsFrom,
+  postTransaction,
+};
