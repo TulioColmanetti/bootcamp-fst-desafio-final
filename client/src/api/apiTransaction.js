@@ -46,4 +46,8 @@ const getAll = async (query) => {
   return await http.get(URL_TRANSACTION + query);
 };
 
-export default { YEARS, MONTHS, ALL_PERIODS, getAll };
+const postTransaction = async (transaction) => {
+  return await http.post(URL_TRANSACTION, transaction);
+};
+
+export default { YEARS, MONTHS, ALL_PERIODS, getAll, postTransaction };
