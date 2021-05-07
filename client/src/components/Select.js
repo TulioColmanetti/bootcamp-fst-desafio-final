@@ -15,15 +15,16 @@ export default function Select({ options, selectedValue, onSelect }) {
   return (
     <div style={containerStyle}>
       <div>
-        <button
-          style={buttonStyle}
-          className="waves-effect waves-light btn-small"
-        >
+        <button style={buttonStyle} className="btn">
           {'<'}
         </button>
       </div>
       <div className="input-field" style={selectStyle}>
-        <select value={selectedValue} onChange={handleSelectChange}>
+        <select
+          className="browser-default"
+          value={selectedValue}
+          onChange={handleSelectChange}
+        >
           {options.map((option) => {
             const { id, description, yearMonth } = option;
             return (
@@ -35,10 +36,7 @@ export default function Select({ options, selectedValue, onSelect }) {
         </select>
       </div>
       <div>
-        <button
-          style={buttonStyle}
-          className="waves-effect waves-light btn-small"
-        >
+        <button style={buttonStyle} className="btn">
           {'>'}
         </button>
       </div>

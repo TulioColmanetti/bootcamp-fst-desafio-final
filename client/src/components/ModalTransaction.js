@@ -118,6 +118,7 @@ export default function ModalTransaction({
               </div>
               <div className="input-field">
                 <input
+                  id="inputDesc"
                   name="description"
                   type="text"
                   value={transaction.description}
@@ -129,6 +130,7 @@ export default function ModalTransaction({
               </div>
               <div className="input-field">
                 <input
+                  id="inputCateg"
                   name="category"
                   type="text"
                   value={transaction.category}
@@ -141,10 +143,11 @@ export default function ModalTransaction({
               <div style={flexRowInputDate}>
                 <div className="input-field">
                   <input
+                    id="inputValue"
                     name="value"
                     type="number"
                     min="0"
-                    step="0.1"
+                    step="0.01"
                     value={transaction.value}
                     onChange={handleOnChange}
                     onFocus={handleFocus}
@@ -155,6 +158,7 @@ export default function ModalTransaction({
                 </div>
                 <div className="input-field">
                   <input
+                    id="inputDate"
                     name="yearMonthDay"
                     type="date"
                     value={transaction.yearMonthDay}
@@ -170,7 +174,7 @@ export default function ModalTransaction({
               <button
                 disabled={disabledSaveButton}
                 type="submit"
-                className="waves-effect waves-green btn"
+                className="waves-effect waves-lights btn"
               >
                 Salvar
               </button>

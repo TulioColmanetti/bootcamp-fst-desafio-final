@@ -14,10 +14,7 @@ export default function InputPanel({ onAddTransactionClick, onInputFilter }) {
 
   return (
     <div style={styles.inputPanel}>
-      <button
-        className="waves-effect waves-green btn"
-        onClick={handleButtonClick}
-      >
+      <button className="btn" onClick={handleButtonClick}>
         <span style={{ fontSize: '1.1rem', marginRight: '5px' }}>+</span>
         <span>NOVO LANÇAMENTO</span>
       </button>
