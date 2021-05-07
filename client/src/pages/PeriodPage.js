@@ -3,9 +3,9 @@ import Header from '../components/Header.js';
 import Main from '../components/Main.js';
 import Select from '../components/Select.js';
 import Summary from '../components/Summary.js';
-import Filter from '../components/Filter.js';
-import Transactions from '../components/Transactions.js';
+import InputPanel from '../components/InputPanel.js';
 import ModalTransaction from '../components/ModalTransaction.js';
+import Transactions from '../components/Transactions.js';
 import api from '../api/apiTransaction.js';
 import * as stringHelpers from '../helpers/stringHelpers.js';
 
@@ -34,7 +34,7 @@ export default function PeriodPage() {
     const getAllTransactions = async () => {
       const res = await api.getTransactionsFrom(selectedPeriod);
       setAllTransactions(res);
-      setFilteredTransactions(res);
+      // setFilteredTransactions(res);
     };
     getAllTransactions();
   }, [selectedPeriod]);
@@ -78,9 +78,17 @@ export default function PeriodPage() {
     setIsModalOpen(false);
   };
 
-  const handleButtonClick = () => {
+  const handleAddButtonClick = () => {
     setSelectedTransaction({});
     setIsModalOpen(true);
+  };
+
+  const handleInputFilter = (filter) => {
+    const found = allTransactions.filter((transaction) =>
+      transaction.description.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    setFilteredTransactions(found);
   };
 
   const handleTransactionClick = (id, type) => {
@@ -120,14 +128,11 @@ export default function PeriodPage() {
         )}
         <Summary>{allTransactions}</Summary>
         {!isModalOpen && (
-          <button
-            className="waves-effect waves-green btn"
-            onClick={handleButtonClick}
-          >
-            + NOVO LANÇAMENTO
-          </button>
+          <InputPanel
+            onAddTransactionClick={handleAddButtonClick}
+            onInputFilter={handleInputFilter}
+          />
         )}
-        <Filter />
         {isModalOpen && (
           <ModalTransaction
             onSave={handlePersistData}
