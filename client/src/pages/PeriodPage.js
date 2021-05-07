@@ -29,15 +29,23 @@ export default function PeriodPage() {
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState({});
+  const [filter, setFilter] = useState('');
 
   useEffect(() => {
     const getAllTransactions = async () => {
       const res = await api.getTransactionsFrom(selectedPeriod);
       setAllTransactions(res);
-      // setFilteredTransactions(res);
     };
     getAllTransactions();
   }, [selectedPeriod]);
+
+  useEffect(() => {
+    const found = allTransactions.filter((transaction) =>
+      transaction.description.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    setFilteredTransactions(found);
+  }, [filter, allTransactions]);
 
   const handleSelectedPeriod = (period) => {
     setSelectedPeriod(period);
@@ -83,12 +91,8 @@ export default function PeriodPage() {
     setIsModalOpen(true);
   };
 
-  const handleInputFilter = (filter) => {
-    const found = allTransactions.filter((transaction) =>
-      transaction.description.toLowerCase().includes(filter.toLowerCase())
-    );
-
-    setFilteredTransactions(found);
+  const handleChangeFilter = (textFilter) => {
+    setFilter(textFilter);
   };
 
   const handleTransactionClick = (id, type) => {
@@ -119,20 +123,21 @@ export default function PeriodPage() {
     <div className="container">
       <Header>Bootcamp Full Stack - Desafio Final</Header>
       <Main>
-        {!isModalOpen && (
-          <Select
-            options={api.ALL_PERIODS}
-            selectedValue={selectedPeriod}
-            onSelect={handleSelectedPeriod}
-          />
-        )}
-        <Summary>{allTransactions}</Summary>
-        {!isModalOpen && (
-          <InputPanel
-            onAddTransactionClick={handleAddButtonClick}
-            onInputFilter={handleInputFilter}
-          />
-        )}
+        {/* {!isModalOpen && ( */}
+        <Select
+          options={api.ALL_PERIODS}
+          selectedValue={selectedPeriod}
+          onSelect={handleSelectedPeriod}
+        />
+        {/* )} */}
+        <Summary>{filteredTransactions}</Summary>
+        {/* {!isModalOpen && ( */}
+        <InputPanel
+          textFilter={filter}
+          onAddTransactionClick={handleAddButtonClick}
+          onChangeFilter={handleChangeFilter}
+        />
+        {/* )} */}
         {isModalOpen && (
           <ModalTransaction
             onSave={handlePersistData}
@@ -142,7 +147,7 @@ export default function PeriodPage() {
           </ModalTransaction>
         )}
         <Transactions onTransactionClick={handleTransactionClick}>
-          {allTransactions}
+          {filteredTransactions}
         </Transactions>
       </Main>
     </div>

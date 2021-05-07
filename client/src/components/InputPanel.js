@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 
-export default function InputPanel({ onAddTransactionClick, onInputFilter }) {
-  const [filter, setFilter] = useState('');
-
+export default function InputPanel({
+  textFilter,
+  onAddTransactionClick,
+  onChangeFilter,
+}) {
   const handleButtonClick = () => {
     onAddTransactionClick();
   };
 
   const handleOnChange = (event) => {
-    setFilter(event.target.value);
-    onInputFilter(event.target.value);
+    onChangeFilter(event.target.value);
   };
 
   return (
@@ -23,7 +24,7 @@ export default function InputPanel({ onAddTransactionClick, onInputFilter }) {
           id="inputFilter"
           name="filter"
           type="text"
-          value={filter}
+          value={textFilter}
           onChange={handleOnChange}
         />
         <label className="active" htmlFor="inputFilter">
