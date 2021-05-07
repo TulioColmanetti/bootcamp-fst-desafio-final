@@ -20,10 +20,17 @@ const INITIAL_TRANSACTION = {
 export default function ModalTransaction({
   onSave,
   onClose,
-  children: initialTransaction = INITIAL_TRANSACTION,
+  children: initialTransaction,
 }) {
+  if (
+    Object.keys(initialTransaction).length === 0 &&
+    initialTransaction.constructor === Object
+  )
+    initialTransaction = INITIAL_TRANSACTION;
+
   const [transaction, setTransaction] = useState(initialTransaction);
   const [disabledSaveButton, setDisabledSaveButton] = useState(true);
+  const [disabledRadioButton, setDisabledRadioButton] = useState(true);
 
   const {
     title,
@@ -38,6 +45,9 @@ export default function ModalTransaction({
     if (transaction.description === '' || transaction.category === '')
       setDisabledSaveButton(true);
     else setDisabledSaveButton(false);
+
+    if (transaction._id) setDisabledRadioButton(true);
+    else setDisabledRadioButton(false);
   }, [transaction]);
 
   const handleFormSubmit = (event) => {
@@ -89,6 +99,7 @@ export default function ModalTransaction({
                     type="radio"
                     value="+"
                     checked={transaction.type === '+'}
+                    disabled={disabledRadioButton}
                     onChange={handleOnChange}
                   />
                   <span>Receita</span>
@@ -99,6 +110,7 @@ export default function ModalTransaction({
                     type="radio"
                     value="-"
                     checked={transaction.type === '-'}
+                    disabled={disabledRadioButton}
                     onChange={handleOnChange}
                   />
                   <span>Despesa</span>
