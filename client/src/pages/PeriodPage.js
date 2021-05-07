@@ -27,6 +27,7 @@ export default function PeriodPage() {
   const [selectedPeriod, setSelectedPeriod] = useState(generateCurrentPeriod());
   const [transactions, setTransactions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState({});
 
   useEffect(() => {
     const getAllTransactions = async () => {
@@ -41,14 +42,33 @@ export default function PeriodPage() {
   };
 
   const handlePersistData = async (newTransaction) => {
-    const createdTransaction = await api.postTransaction(newTransaction);
+    let returnedTransaction = {};
+    let newTransactions = Object.assign([], transactions);
 
-    const newTransactions = Object.assign([], transactions);
-    newTransactions.push(createdTransaction);
+    // If transaction does NOT have an _id property, then it is a new one, do POST
+    if (!newTransaction._id) {
+      returnedTransaction = await api.postTransaction(newTransaction);
+      newTransactions.push(returnedTransaction);
+    }
+    // If transaction does have an _id property, then it is being edited, do UPDATE
+    else {
+      returnedTransaction = newTransaction;
+      newTransactions = newTransactions.map((newTransaction) =>
+        returnedTransaction._id === newTransaction._id
+          ? returnedTransaction
+          : newTransaction
+      );
+    }
+
+    // Filter transactions inserted or updated with date out of current period
+    newTransactions = newTransactions.filter(
+      (newTransaction) => newTransaction.yearMonth === selectedPeriod
+    );
+
+    // Sort transactions with ascending day order
     newTransactions.sort((a, b) => a.day - b.day);
 
     setTransactions(newTransactions);
-
     setIsModalOpen(false);
   };
 
@@ -57,6 +77,31 @@ export default function PeriodPage() {
   };
 
   const handleButtonClick = () => {
+    setSelectedTransaction({});
+    setIsModalOpen(true);
+  };
+
+  const handleTransactionClick = (id, type) => {
+    const found = transactions.find((transaction) => transaction._id === id);
+
+    setSelectedTransaction(found);
+
+    let newTransactions = Object.assign([], transactions);
+
+    // DELETE selected transaction
+    if (type === 'delete') {
+      // onDelete(selectedTransaction);
+
+      newTransactions = newTransactions.filter(
+        (transaction) => transaction._id !== id
+      );
+      newTransactions.sort((a, b) => a.day - b.day);
+
+      setTransactions(newTransactions);
+      return;
+    }
+
+    // Open modal for EDIT selected transaction
     setIsModalOpen(true);
   };
 
@@ -86,10 +131,12 @@ export default function PeriodPage() {
             onSave={handlePersistData}
             onClose={handleModalClose}
           >
-            {}
+            {selectedTransaction}
           </ModalTransaction>
         )}
-        <Transactions>{transactions}</Transactions>
+        <Transactions onTransactionClick={handleTransactionClick}>
+          {transactions}
+        </Transactions>
       </Main>
     </div>
   );
