@@ -1,7 +1,8 @@
 import React from 'react';
 import * as stringHelpers from '../helpers/stringHelpers.js';
+import Action from './Action.js';
 
-export default function Transaction({ children: transaction }) {
+export default function Transaction({ onActionClick, children: transaction }) {
   const { day, category, description, value } = transaction;
   const {
     transactionStyle,
@@ -10,10 +11,13 @@ export default function Transaction({ children: transaction }) {
     descriptionStyle,
     textAlignStyle,
     valueStyle,
-    iconStyle,
   } = styles;
 
   const backgroundColor = transaction.type === '+' ? '#64ffda' : '#ef9a9a';
+
+  const handleActionClick = (id, type) => {
+    onActionClick(id, type);
+  };
 
   return (
     // <div style={Object.assign({}, transactionStyle, { backgroundColor })}>
@@ -26,12 +30,16 @@ export default function Transaction({ children: transaction }) {
       <span style={valueStyle}>
         {stringHelpers.formatNumberCurrency(value)}
       </span>
-      <span className="material-icons" style={iconStyle}>
-        edit
-      </span>
-      <span className="material-icons" style={iconStyle}>
-        delete
-      </span>
+      <Action
+        onActionClick={handleActionClick}
+        id={transaction._id}
+        type="edit"
+      />
+      <Action
+        onActionClick={handleActionClick}
+        id={transaction._id}
+        type="delete"
+      />
     </div>
   );
 }
@@ -74,11 +82,5 @@ const styles = {
   valueStyle: {
     fontSize: '1.2rem',
     marginRight: '100px',
-  },
-
-  iconStyle: {
-    marginRight: '10px',
-    fontSize: '1.3rem',
-    cursor: 'pointer',
   },
 };
