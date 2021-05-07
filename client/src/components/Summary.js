@@ -6,10 +6,13 @@ export default function Summary({ children: transactions }) {
   return (
     <div style={containerStyle}>
       {SUMMARY.map(({ id, title, getValue, valueStyle }) => {
+        let value = getValue(transactions);
+        if (value < 0) valueStyle = styles.negativeValueStyle;
+        if (id !== 's1') value = stringHelpers.formatNumberCurrency(value);
         return (
           <span key={id}>
             <span style={titleStyle}>{title}</span>
-            <span style={valueStyle}>{getValue(transactions)}</span>
+            <span style={valueStyle}>{value}</span>
           </span>
         );
       })}
@@ -64,34 +67,28 @@ const SUMMARY = [
     id: 's2',
     title: 'Receitas: ',
     getValue: (transactions) =>
-      stringHelpers.formatNumberCurrency(
-        transactions
-          .filter((transaction) => transaction.type === '+')
-          .reduce((acc, curr) => acc + curr.value, 0)
-      ),
+      transactions
+        .filter((transaction) => transaction.type === '+')
+        .reduce((acc, curr) => acc + curr.value, 0),
     valueStyle: styles.positiveValueStyle,
   },
   {
     id: 's3',
     title: 'Despesas: ',
     getValue: (transactions) =>
-      stringHelpers.formatNumberCurrency(
-        transactions
-          .filter((transaction) => transaction.type === '-')
-          .reduce((acc, curr) => acc + curr.value, 0)
-      ),
+      transactions
+        .filter((transaction) => transaction.type === '-')
+        .reduce((acc, curr) => acc + curr.value, 0),
     valueStyle: styles.negativeValueStyle,
   },
   {
     id: 's4',
     title: 'Saldo: ',
     getValue: (transactions) =>
-      stringHelpers.formatNumberCurrency(
-        transactions.reduce((acc, curr) => {
-          if (curr.type === '+') return acc + curr.value;
-          else return acc - curr.value;
-        }, 0)
-      ),
+      transactions.reduce((acc, curr) => {
+        if (curr.type === '+') return acc + curr.value;
+        else return acc - curr.value;
+      }, 0),
     valueStyle: styles.positiveValueStyle,
   },
 ];
