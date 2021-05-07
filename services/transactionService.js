@@ -45,6 +45,41 @@ const createTransactions = async (req, res, next) => {
   }
 };
 
+// PUT route - update transaction
+const updateTransaction = async (req, res, next) => {
+  const transaction = req.body;
+
+  if (!transaction) throw new Error('Missing required information!');
+
+  const id = req.params.id;
+
+  try {
+    const updatedTransaction = await TransactionModel.findByIdAndUpdate(
+      { _id: id },
+      req.body,
+      { new: true }
+    );
+
+    res.send(updatedTransaction);
+  } catch (err) {
+    next(err);
+  }
+};
+
+// DELETE route - remove transaction
+const removeTransaction = async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const removedTransaction = await TransactionModel.findByIdAndRemove(id);
+
+    // res.send(removedTransaction);
+    res.send();
+  } catch (err) {
+    next(err);
+  }
+};
+
 /*
  Always do this if an error occurred
  It will not run if res.send() or res.end() was called before
@@ -53,4 +88,10 @@ const exceptionHandler = (err, _req, res, _next) => {
   res.status(400).send({ error: err.message });
 };
 
-module.exports = { findTransactions, createTransactions, exceptionHandler };
+module.exports = {
+  findTransactions,
+  createTransactions,
+  updateTransaction,
+  removeTransaction,
+  exceptionHandler,
+};
