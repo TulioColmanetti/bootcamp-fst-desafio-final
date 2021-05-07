@@ -25,14 +25,16 @@ function generateCurrentPeriod() {
 
 export default function PeriodPage() {
   const [selectedPeriod, setSelectedPeriod] = useState(generateCurrentPeriod());
-  const [transactions, setTransactions] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
+  const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState({});
 
   useEffect(() => {
     const getAllTransactions = async () => {
-      const allTransactions = await api.getTransactionsFrom(selectedPeriod);
-      setTransactions(allTransactions);
+      const res = await api.getTransactionsFrom(selectedPeriod);
+      setAllTransactions(res);
+      setFilteredTransactions(res);
     };
     getAllTransactions();
   }, [selectedPeriod]);
@@ -43,7 +45,7 @@ export default function PeriodPage() {
 
   const handlePersistData = async (newTransaction) => {
     let returnedTransaction = {};
-    let newTransactions = Object.assign([], transactions);
+    let newTransactions = Object.assign([], allTransactions);
 
     // If transaction does NOT have an _id property, then it is a new one, do POST
     if (!newTransaction._id) {
@@ -68,7 +70,7 @@ export default function PeriodPage() {
     // Sort transactions with ascending day order
     newTransactions.sort((a, b) => a.day - b.day);
 
-    setTransactions(newTransactions);
+    setAllTransactions(newTransactions);
     setIsModalOpen(false);
   };
 
@@ -82,11 +84,11 @@ export default function PeriodPage() {
   };
 
   const handleTransactionClick = (id, type) => {
-    const found = transactions.find((transaction) => transaction._id === id);
+    const found = allTransactions.find((transaction) => transaction._id === id);
 
     setSelectedTransaction(found);
 
-    let newTransactions = Object.assign([], transactions);
+    let newTransactions = Object.assign([], allTransactions);
 
     // DELETE selected transaction
     if (type === 'delete') {
@@ -97,7 +99,7 @@ export default function PeriodPage() {
       );
       newTransactions.sort((a, b) => a.day - b.day);
 
-      setTransactions(newTransactions);
+      setAllTransactions(newTransactions);
       return;
     }
 
@@ -116,7 +118,7 @@ export default function PeriodPage() {
             onSelect={handleSelectedPeriod}
           />
         )}
-        <Summary>{transactions}</Summary>
+        <Summary>{allTransactions}</Summary>
         {!isModalOpen && (
           <button
             className="waves-effect waves-green btn"
@@ -135,7 +137,7 @@ export default function PeriodPage() {
           </ModalTransaction>
         )}
         <Transactions onTransactionClick={handleTransactionClick}>
-          {transactions}
+          {allTransactions}
         </Transactions>
       </Main>
     </div>
