@@ -17,23 +17,29 @@ const INITIAL_TRANSACTION = {
   type: '+',
 };
 
+const modalTitles = ['Criação de lançamento', 'Edição de lançamento'];
+
 export default function ModalTransaction({
   onSave,
   onClose,
   children: initialTransaction,
 }) {
+  let modalTitle = '';
+
   if (
     Object.keys(initialTransaction).length === 0 &&
     initialTransaction.constructor === Object
-  )
+  ) {
     initialTransaction = INITIAL_TRANSACTION;
+    modalTitle = modalTitles[0];
+  } else modalTitle = modalTitles[1];
 
   const [transaction, setTransaction] = useState(initialTransaction);
   const [disabledSaveButton, setDisabledSaveButton] = useState(true);
   const [disabledRadioButton, setDisabledRadioButton] = useState(true);
 
   const {
-    title,
+    titleStyle,
     flexRowTitle,
     flexColumn,
     flexRowRadio,
@@ -82,7 +88,7 @@ export default function ModalTransaction({
       <Modal isOpen={true} className={css.Modal} overlayClassName={css.Overlay}>
         <div>
           <div style={flexRowTitle}>
-            <span style={title}>Adição de Transação</span>
+            <span style={titleStyle}>{modalTitle}</span>
             <button
               onClick={handleCloseButtonClick}
               className="waves-effect waves-lights btn red dark-4"
@@ -187,7 +193,7 @@ export default function ModalTransaction({
 }
 
 const styles = {
-  title: {
+  titleStyle: {
     fontSize: '1.3rem',
     fontWeight: 'bold',
   },
