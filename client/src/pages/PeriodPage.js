@@ -57,12 +57,16 @@ export default function PeriodPage() {
 
     // If transaction does NOT have an _id property, then it is a new one, do POST
     if (!newTransaction._id) {
-      returnedTransaction = await api.postTransaction(newTransaction);
+      // POST on Backend
+      returnedTransaction = await api.createTransaction(newTransaction);
+      // Reflect POST on Frontend
       newTransactions.push(returnedTransaction);
     }
     // If transaction does have an _id property, then it is being edited, do UPDATE
     else {
-      returnedTransaction = newTransaction;
+      // UPDATE on Backend
+      returnedTransaction = await api.updateTransaction(newTransaction);
+      // Reflect UPDATE on Frontend
       newTransactions = newTransactions.map((newTransaction) =>
         returnedTransaction._id === newTransaction._id
           ? returnedTransaction
@@ -95,7 +99,7 @@ export default function PeriodPage() {
     setFilter(textFilter);
   };
 
-  const handleTransactionClick = (id, type) => {
+  const handleTransactionClick = async (id, type) => {
     const found = allTransactions.find((transaction) => transaction._id === id);
 
     setSelectedTransaction(found);
@@ -104,8 +108,9 @@ export default function PeriodPage() {
 
     // DELETE selected transaction
     if (type === 'delete') {
-      // onDelete(selectedTransaction);
-
+      // DELETE on Backend
+      await api.removeTransaction(found);
+      // Reflect DELETE on Frontend
       newTransactions = newTransactions.filter(
         (transaction) => transaction._id !== id
       );

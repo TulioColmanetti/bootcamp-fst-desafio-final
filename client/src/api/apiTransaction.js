@@ -47,9 +47,31 @@ const getTransactionsFrom = async (period) => {
   return transactions.data.sort((a, b) => a.day - b.day);
 };
 
-const postTransaction = async (transaction) => {
+const createTransaction = async (transaction) => {
   const createdTransaction = await http.post(URL_TRANSACTION, transaction);
   return createdTransaction.data;
+};
+
+const updateTransaction = async (transaction) => {
+  const id = transaction._id;
+  // Create a copy of the transaction, to keep the original intact
+  const newTransaction = Object.assign({}, transaction);
+  /*
+  Remove _id property from copied transaction, since it needs to be passed through URL
+  Also, passing it through the body gives an conflict error on Backend
+  */
+  delete newTransaction._id;
+  const updatedTransaction = await http.put(
+    URL_TRANSACTION + `/${id}`,
+    newTransaction
+  );
+  return updatedTransaction.data;
+};
+
+const removeTransaction = async (transaction) => {
+  const id = transaction._id;
+  await http.delete(URL_TRANSACTION + `/${id}`);
+  return true;
 };
 
 export default {
@@ -57,5 +79,7 @@ export default {
   MONTHS,
   ALL_PERIODS,
   getTransactionsFrom,
-  postTransaction,
+  createTransaction,
+  updateTransaction,
+  removeTransaction,
 };

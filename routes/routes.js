@@ -4,6 +4,8 @@ const transactionService = require('../services/transactionService');
 
 transactionRouter.get('/', transactionService.findTransactions);
 transactionRouter.post('/', transactionService.createTransactions);
+transactionRouter.put('/:id', transactionService.updateTransaction);
+transactionRouter.delete('/:id', transactionService.removeTransaction);
 
 transactionRouter.use(transactionService.exceptionHandler);
 
