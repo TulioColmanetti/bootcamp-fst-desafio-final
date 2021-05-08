@@ -44,6 +44,7 @@ export default function ModalTransaction({
     flexColumn,
     flexRowRadio,
     flexRowInputDate,
+    inputValueStyle,
     flexSaveButton,
   } = styles;
 
@@ -147,7 +148,7 @@ export default function ModalTransaction({
                 </label>
               </div>
               <div style={flexRowInputDate}>
-                <div className="input-field">
+                <div className="input-field" style={inputValueStyle}>
                   <input
                     id="inputValue"
                     name="value"
@@ -211,6 +212,10 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+
+  inputValueStyle: {
+    marginRight: '10px',
   },
 
   flexRowRadio: {

@@ -1,6 +1,7 @@
 .Modal {
   /* height: auto; */
-  width: 35%;
+  /* width: 35%; */
+  width: auto;
   background-color: #ffffff;
   box-shadow: 0 0 10px 0 rgba(0, 0, 97, 0.5);
   overflow: auto;

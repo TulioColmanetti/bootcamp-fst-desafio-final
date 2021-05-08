@@ -77,10 +77,15 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'flex-start',
     flex: 1,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    // textOverflow: 'ellipsis',
   },
 
   valueStyle: {
     fontSize: '1.2rem',
-    marginRight: '100px',
+    // marginRight: '100px',
+    marginRight: '10px',
+    marginLeft: '10px',
   },
 };

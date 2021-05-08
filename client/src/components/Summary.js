@@ -2,7 +2,7 @@ import React from 'react';
 import * as stringHelpers from '../helpers/stringHelpers.js';
 
 export default function Summary({ children: transactions }) {
-  const { titleStyle, containerStyle } = styles;
+  const { titleStyle, containerStyle, dataPairStyle } = styles;
   return (
     <div style={containerStyle}>
       {SUMMARY.map(({ id, title, getValue, valueStyle }) => {
@@ -10,7 +10,7 @@ export default function Summary({ children: transactions }) {
         if (value < 0) valueStyle = styles.negativeValueStyle;
         if (id !== 's1') value = stringHelpers.formatNumberCurrency(value);
         return (
-          <span key={id}>
+          <span key={id} style={dataPairStyle}>
             <span style={titleStyle}>{title}</span>
             <span style={valueStyle}>{value}</span>
           </span>
@@ -30,6 +30,10 @@ const styles = {
     padding: '8px',
     border: '1px solid #bdbdbd',
     borderRadius: '5px',
+  },
+
+  dataPairStyle: {
+    overflow: 'hidden',
   },
 
   titleStyle: {
